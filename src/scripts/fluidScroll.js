@@ -21,23 +21,38 @@ window.fluidScroll = {
 		// Save computed options
 		fluidScroll._computedOpts = opts
 
+		// Listen to window-size changes
+		window.addEventListener('resize', fluidScroll._onResize)
+
+		// Start the internal init function
+		return fluidScroll._init(fluidScroll._computedOpts)
+
+	},
+
+	_init(opts) {
+
 		// Get size of window
 		fluidScroll._computedWindow = fluidScroll._getWindowMetrics()
 
 		// Reset computed elements
 		fluidScroll._computedElements = []
 
-		// Listen to window-size changes
-		window.removeEventListener('resize', fluidScroll._onResize)
-		window.addEventListener('resize', fluidScroll._onResize)
+		// Update the metrics of each element
+		for (let i = 0; i < opts.elements.length; ++i) {
+
+			let element        = opts.elements[i],
+				elementMetrics = fluidScroll._getElementMetrics(element, fluidScroll._computedWindow, i)
+
+			// Save metrics of element
+			fluidScroll._computedElements.push(elementMetrics)
+
+		}
 
 		var isBig   = fluidScroll._computedWindow.width >= opts.minWidth && fluidScroll._computedWindow.height >= opts.minHeight,
 			isSmall = fluidScroll._computedWindow.width < opts.minWidth || fluidScroll._computedWindow.height < opts.minHeight
 
-		if (isBig===true && (fluidScroll._on===true || fluidScroll._on===null))        fluidScroll._start()
-		else if (isSmall===true && (fluidScroll._on===true || fluidScroll._on===null)) fluidScroll._stop()
-
-		return true
+		if (isBig===true && (fluidScroll._on===false || fluidScroll._on===null))       return fluidScroll._start()
+		else if (isSmall===true && (fluidScroll._on===true || fluidScroll._on===null)) return fluidScroll._stop()
 
 	},
 
@@ -56,6 +71,15 @@ window.fluidScroll = {
 
 		t /= d
 		return -c * t*(t-2) + b
+
+	},
+
+	_normalizePosition(newPos, maxPos) {
+
+		if (newPos<0)        newPos = 0
+		if (newPos>maxPos-1) newPos = maxPos - 1
+
+		return newPos
 
 	},
 
@@ -106,6 +130,7 @@ window.fluidScroll = {
 
 		var obj = {
 			index,
+			active:	false,
 			top:    elem.offsetTop,
 			bottom: elem.offsetTop + elem.offsetHeight,
 			width:  elem.offsetWidth,
@@ -153,11 +178,19 @@ window.fluidScroll = {
 
 		var elem = elementMetrics.dom
 
-		// Remove all active-classes
-		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { fluidScroll._computedElements[i].dom.classList.remove('active') }
+		// Remove all active-states
+		for (let i = 0; i < fluidScroll._computedElements.length; ++i) {
 
-		// Add active-class to the new element
+			let elementMetrics = fluidScroll._computedElements[i]
+
+			elementMetrics.dom.classList.remove('active')
+			elementMetrics.active = false
+
+		}
+
+		// Add active-state to the element
 		elem.classList.add('active')
+		elementMetrics.active = true
 
 		var currentFrame   = 0,
 			startScrollTop = document.body.scrollTop,
@@ -172,19 +205,20 @@ window.fluidScroll = {
 
 			// Stop the animation when ...
 			// ... all frames have been shown
-			// ... scrollTop reached its maximum
-			if (currentFrame<duration&&document.body.scrollTop!==windowMetrics.maxTop) {
+			// ... scrollTop reached its maximum after the first frame
+			if ((currentFrame>=duration) ||
+				(document.body.scrollTop===windowMetrics.maxTop && currentFrame!==0)) {
+
+					// Animation finished
+					fluidScroll._animating = false
+
+			} else {
 
 				// Continue with next frame
 				currentFrame++
 
 				// Continue animation
 				requestAnimationFrame(animation)
-
-			} else {
-
-				// Animation finished
-				fluidScroll._animating = false
 
 			}
 
@@ -199,29 +233,56 @@ window.fluidScroll = {
 
 	_start() {
 
-		console.log('start')
-
 		fluidScroll._on = true
 
 		window.addEventListener('wheel', fluidScroll._onScroll)
+		document.body.addEventListener('keydown', fluidScroll._onKeydown)
 
 		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { fluidScroll._computedElements[i].dom.classList.remove('active') }
 
-		return true
+		return fluidScroll._scrollToNearest()
 
 	},
 
 	_stop() {
 
-		console.log('end')
-
 		fluidScroll._on = false
 
 		window.removeEventListener('wheel', fluidScroll._onScroll)
+		document.body.removeEventListener('keydown', fluidScroll._onKeydown)
 
 		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { fluidScroll._computedElements[i].dom.classList.add('active') }
 
 		return true
+
+	},
+
+	_onKeydown(e) {
+
+		var key    = e.keyCode,
+			newPos = 0
+
+		if (key!==38 && key!==40)          return true
+		if (fluidScroll._animating===true) return false
+
+		fluidScroll._animating = true
+
+		// Get current position
+		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { if (fluidScroll._computedElements[i].active===true) newPos = i }
+
+		// 38 = Up
+		// 40 = Down
+		if (key===38)      newPos += -1
+		else if (key===40) newPos += 1
+
+		// Check if next element exists
+		newPos = fluidScroll._normalizePosition(newPos, fluidScroll._computedElements.length)
+
+		// Show the new element
+		fluidScroll._setElementVisible(fluidScroll._computedElements[newPos], fluidScroll._computedWindow)
+
+		e.preventDefault()
+		return false
 
 	},
 
@@ -231,7 +292,9 @@ window.fluidScroll = {
 		clearTimeout(fluidScroll._resizeTimer)
 
 		// Set new timeout
-		fluidScroll._resizeTimer = setTimeout(() => fluidScroll.init(fluidScroll._computedOpts), 200)
+		fluidScroll._resizeTimer = setTimeout(() => fluidScroll._init(fluidScroll._computedOpts), 200)
+
+		return true
 
 	},
 
@@ -290,8 +353,7 @@ window.fluidScroll = {
 		nextElementNum = topElement.index + direction
 
 		// Check if next element exists
-		if (nextElementNum<0)                                      nextElementNum = 0
-		if (nextElementNum>fluidScroll._computedElements.length-1) nextElementNum = fluidScroll._computedElements.length - 1
+		nextElementNum = fluidScroll._normalizePosition(nextElementNum, fluidScroll._computedElements.length)
 
 		// Add velocity to next element
 		fluidScroll._computedElements[nextElementNum].visiblePercentage *= gravitation
@@ -305,9 +367,25 @@ window.fluidScroll = {
 
 		}
 
-		fluidScroll._setElementVisible(topElement, fluidScroll._computedWindow)
+		return fluidScroll._setElementVisible(topElement, fluidScroll._computedWindow)
 
-		return true
+	},
+
+	_scrollToNearest() {
+
+		fluidScroll.animating = true
+
+		var nextElementMetrics = null
+
+		for (let i = 0; i < fluidScroll._computedOpts.elements.length; ++i) {
+
+			let elementMetrics = fluidScroll._computedElements[i]
+
+			if (fluidScroll._computedWindow.top>=elementMetrics.top) nextElementMetrics = elementMetrics
+
+		}
+
+		return fluidScroll._setElementVisible(nextElementMetrics, fluidScroll._computedWindow)
 
 	}
 
