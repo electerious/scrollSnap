@@ -51,8 +51,8 @@ window.fluidScroll = {
 		var isBig   = fluidScroll._computedWindow.width >= opts.minWidth && fluidScroll._computedWindow.height >= opts.minHeight,
 			isSmall = fluidScroll._computedWindow.width < opts.minWidth || fluidScroll._computedWindow.height < opts.minHeight
 
-		if (isBig===true && (fluidScroll._on===false || fluidScroll._on===null))       return fluidScroll._start()
-		else if (isSmall===true && (fluidScroll._on===true || fluidScroll._on===null)) return fluidScroll._stop()
+		if (isBig===true && (fluidScroll._on===false || fluidScroll._on===null))       return fluidScroll._start(opts)
+		else if (isSmall===true && (fluidScroll._on===true || fluidScroll._on===null)) return fluidScroll._stop(opts)
 
 	},
 
@@ -138,7 +138,7 @@ window.fluidScroll = {
 			dom:    elem
 		}
 
-		obj.visiblePercentage = fluidScroll._getElementVisiblePercentage(obj, windowMetrics)
+		obj.visiblePercentage = fluidScroll._getElementVisiblePercentage(obj, windowMetrics).vP
 
 		return obj
 
@@ -170,7 +170,7 @@ window.fluidScroll = {
 		if (vP<0) vP = 0
 
 		// Return the visible height in percent
-		return vP
+		return { vH, vP }
 
 	},
 
@@ -231,12 +231,12 @@ window.fluidScroll = {
 
 	},
 
-	_start() {
+	_start(opts) {
 
 		fluidScroll._on = true
 
 		window.addEventListener('wheel', fluidScroll._onScroll)
-		document.body.addEventListener('keydown', fluidScroll._onKeydown)
+		if (opts.keyboard===true) document.body.addEventListener('keydown', fluidScroll._onKeydown)
 
 		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { fluidScroll._computedElements[i].dom.classList.remove('active') }
 
@@ -244,12 +244,12 @@ window.fluidScroll = {
 
 	},
 
-	_stop() {
+	_stop(opts) {
 
 		fluidScroll._on = false
 
 		window.removeEventListener('wheel', fluidScroll._onScroll)
-		document.body.removeEventListener('keydown', fluidScroll._onKeydown)
+		if (opts.keyboard===true) document.body.removeEventListener('keydown', fluidScroll._onKeydown)
 
 		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { fluidScroll._computedElements[i].dom.classList.add('active') }
 
