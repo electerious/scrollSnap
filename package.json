@@ -1,0 +1,38 @@
+{
+  "name": "fluidScroll",
+  "version": "1.0.0",
+  "authors": [
+    "Tobias Reich <tobias.reich.ich@gmail.com>"
+  ],
+  "description": "",
+  "main": "dist/fluidScroll.min.js",
+  "keywords": [
+    "parallax",
+    "scroll",
+    "scrolling",
+    "section"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/electerious/fluidScroll",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electerious/fluidScroll.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "etc"
+  ],
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "2.3.1",
+    "gulp-babel": "^5.1.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.5"
+  }
+}

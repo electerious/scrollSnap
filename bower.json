@@ -1,0 +1,29 @@
+{
+  "name": "fluidScroll",
+  "version": "1.0.0",
+  "authors": [
+    "Tobias Reich <tobias.reich.ich@gmail.com>"
+  ],
+  "description": "",
+  "main": "dist/fluidScroll.min.js",
+  "keywords": [
+    "parallax",
+    "scroll",
+    "scrolling",
+    "section"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/electerious/fluidScroll",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electerious/fluidScroll.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "etc"
+  ]
+}
