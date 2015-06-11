@@ -2,7 +2,7 @@
 
 Scroll, stop, snap.
 
-scrollSnap provides a hassle-free alternative to scroll-hijacking, allowing a section-based navigation without harming the user-experience of your site. Is's written in Vanilla JS and has zero dependencies.
+scrollSnap provides a hassle-free alternative to scroll-hijacking, allowing a section-based navigation without harming the user-experience. Is's written in Vanilla JS and has zero dependencies.
 
 Tested with the latest versions of [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/), [Apple Safari](https://www.apple.com/safari/), [Google Chrome](https://www.google.com/chrome/browser/), [Microsoft Internet Explorer](http://windows.microsoft.com/en-us/internet-explorer/download-ie) (10+) and [Opera](http://www.opera.com/).
 
