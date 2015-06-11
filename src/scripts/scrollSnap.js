@@ -1,4 +1,4 @@
-window.fluidScroll = {
+window.scrollSnap = {
 
 	_on: null,
 	_animating: false,
@@ -13,46 +13,46 @@ window.fluidScroll = {
 	init(opts = {}) {
 
 		// Check if opts includes all required properties
-		if (fluidScroll._valid(opts)===false) return false
+		if (scrollSnap._valid(opts)===false) return false
 
-		// Disable fluidScroll on mobile devices
-		if (opts.detectMobile===true&&fluidScroll._isMobile()===true) return false
+		// Disable scrollSnap on mobile devices
+		if (opts.detectMobile===true&&scrollSnap._isMobile()===true) return false
 
 		// Save computed options
-		fluidScroll._computedOpts = opts
+		scrollSnap._computedOpts = opts
 
 		// Listen to window-size changes
-		window.addEventListener('resize', fluidScroll._onResize)
+		window.addEventListener('resize', scrollSnap._onResize)
 
 		// Start the internal init function
-		return fluidScroll._init(fluidScroll._computedOpts)
+		return scrollSnap._init(scrollSnap._computedOpts)
 
 	},
 
 	_init(opts) {
 
 		// Get size of window
-		fluidScroll._computedWindow = fluidScroll._getWindowMetrics()
+		scrollSnap._computedWindow = scrollSnap._getWindowMetrics()
 
 		// Reset computed elements
-		fluidScroll._computedElements = []
+		scrollSnap._computedElements = []
 
 		// Update the metrics of each element
 		for (let i = 0; i < opts.elements.length; ++i) {
 
 			let element        = opts.elements[i],
-				elementMetrics = fluidScroll._getElementMetrics(element, fluidScroll._computedWindow, i)
+				elementMetrics = scrollSnap._getElementMetrics(element, scrollSnap._computedWindow, i)
 
 			// Save metrics of element
-			fluidScroll._computedElements.push(elementMetrics)
+			scrollSnap._computedElements.push(elementMetrics)
 
 		}
 
-		var isBig   = fluidScroll._computedWindow.width >= opts.minWidth && fluidScroll._computedWindow.height >= opts.minHeight,
-			isSmall = fluidScroll._computedWindow.width < opts.minWidth || fluidScroll._computedWindow.height < opts.minHeight
+		var isBig   = scrollSnap._computedWindow.width >= opts.minWidth && scrollSnap._computedWindow.height >= opts.minHeight,
+			isSmall = scrollSnap._computedWindow.width < opts.minWidth || scrollSnap._computedWindow.height < opts.minHeight
 
-		if (isBig===true && (fluidScroll._on===false || fluidScroll._on===null))       return fluidScroll._start(opts)
-		else if (isSmall===true && (fluidScroll._on===true || fluidScroll._on===null)) return fluidScroll._stop(opts)
+		if (isBig===true && (scrollSnap._on===false || scrollSnap._on===null))       return scrollSnap._start(opts)
+		else if (isSmall===true && (scrollSnap._on===true || scrollSnap._on===null)) return scrollSnap._stop(opts)
 
 	},
 
@@ -104,7 +104,7 @@ window.fluidScroll = {
 
 		if (opts.duration==null||opts.duration<0) opts.duration = 20
 
-		if (opts.timing==null) opts.timing = fluidScroll._timing
+		if (opts.timing==null) opts.timing = scrollSnap._timing
 
 		if (opts.keyboard!==false) opts.keyboard = true
 
@@ -138,7 +138,7 @@ window.fluidScroll = {
 			dom:    elem
 		}
 
-		obj.visiblePercentage = fluidScroll._getElementVisiblePercentage(obj, windowMetrics).vP
+		obj.visiblePercentage = scrollSnap._getElementVisiblePercentage(obj, windowMetrics).vP
 
 		return obj
 
@@ -179,9 +179,9 @@ window.fluidScroll = {
 		var elem = elementMetrics.dom
 
 		// Remove all active-states
-		for (let i = 0; i < fluidScroll._computedElements.length; ++i) {
+		for (let i = 0; i < scrollSnap._computedElements.length; ++i) {
 
-			let elementMetrics = fluidScroll._computedElements[i]
+			let elementMetrics = scrollSnap._computedElements[i]
 
 			elementMetrics.dom.classList.remove('active')
 			elementMetrics.active = false
@@ -195,8 +195,10 @@ window.fluidScroll = {
 		var currentFrame   = 0,
 			startScrollTop = document.body.scrollTop,
 			difference     = startScrollTop - elementMetrics.top,
-			duration       = fluidScroll._computedOpts.duration,
-			timing         = fluidScroll._computedOpts.timing
+			duration       = scrollSnap._computedOpts.duration,
+			timing         = scrollSnap._computedOpts.timing
+
+		console.log(startScrollTop);
 
 		function animation() {
 
@@ -210,7 +212,7 @@ window.fluidScroll = {
 				(document.body.scrollTop===windowMetrics.maxTop && currentFrame!==0)) {
 
 					// Animation finished
-					fluidScroll._animating = false
+					scrollSnap._animating = false
 
 			} else {
 
@@ -233,25 +235,25 @@ window.fluidScroll = {
 
 	_start(opts) {
 
-		fluidScroll._on = true
+		scrollSnap._on = true
 
-		window.addEventListener('wheel', fluidScroll._onScroll)
-		if (opts.keyboard===true) document.body.addEventListener('keydown', fluidScroll._onKeydown)
+		window.addEventListener('wheel', scrollSnap._onScroll)
+		if (opts.keyboard===true) document.body.addEventListener('keydown', scrollSnap._onKeydown)
 
-		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { fluidScroll._computedElements[i].dom.classList.remove('active') }
+		for (let i = 0; i < scrollSnap._computedElements.length; ++i) { scrollSnap._computedElements[i].dom.classList.remove('active') }
 
-		return fluidScroll._scrollToNearest()
+		return scrollSnap._scrollToNearest()
 
 	},
 
 	_stop(opts) {
 
-		fluidScroll._on = false
+		scrollSnap._on = false
 
-		window.removeEventListener('wheel', fluidScroll._onScroll)
-		if (opts.keyboard===true) document.body.removeEventListener('keydown', fluidScroll._onKeydown)
+		window.removeEventListener('wheel', scrollSnap._onScroll)
+		if (opts.keyboard===true) document.body.removeEventListener('keydown', scrollSnap._onKeydown)
 
-		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { fluidScroll._computedElements[i].dom.classList.add('active') }
+		for (let i = 0; i < scrollSnap._computedElements.length; ++i) { scrollSnap._computedElements[i].dom.classList.add('active') }
 
 		return true
 
@@ -263,12 +265,12 @@ window.fluidScroll = {
 			newPos = 0
 
 		if (key!==38 && key!==40)          return true
-		if (fluidScroll._animating===true) return false
+		if (scrollSnap._animating===true) return false
 
-		fluidScroll._animating = true
+		scrollSnap._animating = true
 
 		// Get current position
-		for (let i = 0; i < fluidScroll._computedElements.length; ++i) { if (fluidScroll._computedElements[i].active===true) newPos = i }
+		for (let i = 0; i < scrollSnap._computedElements.length; ++i) { if (scrollSnap._computedElements[i].active===true) newPos = i }
 
 		// 38 = Up
 		// 40 = Down
@@ -276,10 +278,10 @@ window.fluidScroll = {
 		else if (key===40) newPos += 1
 
 		// Check if next element exists
-		newPos = fluidScroll._normalizePosition(newPos, fluidScroll._computedElements.length)
+		newPos = scrollSnap._normalizePosition(newPos, scrollSnap._computedElements.length)
 
 		// Show the new element
-		fluidScroll._setElementVisible(fluidScroll._computedElements[newPos], fluidScroll._computedWindow)
+		scrollSnap._setElementVisible(scrollSnap._computedElements[newPos], scrollSnap._computedWindow)
 
 		e.preventDefault()
 		return false
@@ -289,10 +291,10 @@ window.fluidScroll = {
 	_onResize() {
 
 		// Reset timeout
-		clearTimeout(fluidScroll._resizeTimer)
+		clearTimeout(scrollSnap._resizeTimer)
 
 		// Set new timeout
-		fluidScroll._resizeTimer = setTimeout(() => fluidScroll._init(fluidScroll._computedOpts), 200)
+		scrollSnap._resizeTimer = setTimeout(() => scrollSnap._init(scrollSnap._computedOpts), 200)
 
 		return true
 
@@ -300,13 +302,13 @@ window.fluidScroll = {
 
 	_onScroll(e) {
 
-		if (fluidScroll._animating===true) return false
+		if (scrollSnap._animating===true) return false
 
 		// Reset timeout
-		clearTimeout(fluidScroll._scrollTimer)
+		clearTimeout(scrollSnap._scrollTimer)
 
 		// Set new timeout
-		fluidScroll._scrollTimer = setTimeout(() => fluidScroll._scrollTo(e), 200)
+		scrollSnap._scrollTimer = setTimeout(() => scrollSnap._scrollTo(e), 200)
 
 		return true
 
@@ -314,7 +316,7 @@ window.fluidScroll = {
 
 	_scrollTo(e) {
 
-		fluidScroll._animating = true
+		scrollSnap._animating = true
 
 		var direction      = 0,
 			topElement     = {},
@@ -330,19 +332,19 @@ window.fluidScroll = {
 		else             direction = -1
 
 		// Update window metrics
-		fluidScroll._computedWindow = fluidScroll._getWindowMetrics()
+		scrollSnap._computedWindow = scrollSnap._getWindowMetrics()
 
 		// Reset computed elements
-		fluidScroll._computedElements = []
+		scrollSnap._computedElements = []
 
 		// Update the metrics of each element
-		for (let i = 0; i < fluidScroll._computedOpts.elements.length; ++i) {
+		for (let i = 0; i < scrollSnap._computedOpts.elements.length; ++i) {
 
-			let element        = fluidScroll._computedOpts.elements[i],
-				elementMetrics = fluidScroll._getElementMetrics(element, fluidScroll._computedWindow, i)
+			let element        = scrollSnap._computedOpts.elements[i],
+				elementMetrics = scrollSnap._getElementMetrics(element, scrollSnap._computedWindow, i)
 
 			// Save metrics of element
-			fluidScroll._computedElements.push(elementMetrics)
+			scrollSnap._computedElements.push(elementMetrics)
 
 			// Get the element which is most visible and save it
 			if (topElement.visiblePercentage==null || elementMetrics.visiblePercentage > topElement.visiblePercentage) topElement = elementMetrics
@@ -353,39 +355,39 @@ window.fluidScroll = {
 		nextElementNum = topElement.index + direction
 
 		// Check if next element exists
-		nextElementNum = fluidScroll._normalizePosition(nextElementNum, fluidScroll._computedElements.length)
+		nextElementNum = scrollSnap._normalizePosition(nextElementNum, scrollSnap._computedElements.length)
 
 		// Add velocity to next element
-		fluidScroll._computedElements[nextElementNum].visiblePercentage *= gravitation
+		scrollSnap._computedElements[nextElementNum].visiblePercentage *= gravitation
 
 		// Re-check if there is a new most visible element
-		for (let i = 0; i < fluidScroll._computedElements.length; ++i) {
+		for (let i = 0; i < scrollSnap._computedElements.length; ++i) {
 
-			let elementMetrics = fluidScroll._computedElements[i]
+			let elementMetrics = scrollSnap._computedElements[i]
 
 			if (elementMetrics.visiblePercentage>topElement.visiblePercentage) topElement = elementMetrics
 
 		}
 
-		return fluidScroll._setElementVisible(topElement, fluidScroll._computedWindow)
+		return scrollSnap._setElementVisible(topElement, scrollSnap._computedWindow)
 
 	},
 
 	_scrollToNearest() {
 
-		fluidScroll.animating = true
+		scrollSnap.animating = true
 
 		var nextElementMetrics = null
 
-		for (let i = 0; i < fluidScroll._computedOpts.elements.length; ++i) {
+		for (let i = 0; i < scrollSnap._computedOpts.elements.length; ++i) {
 
-			let elementMetrics = fluidScroll._computedElements[i]
+			let elementMetrics = scrollSnap._computedElements[i]
 
-			if (fluidScroll._computedWindow.top>=elementMetrics.top) nextElementMetrics = elementMetrics
+			if (scrollSnap._computedWindow.top>=elementMetrics.top) nextElementMetrics = elementMetrics
 
 		}
 
-		return fluidScroll._setElementVisible(nextElementMetrics, fluidScroll._computedWindow)
+		return scrollSnap._setElementVisible(nextElementMetrics, scrollSnap._computedWindow)
 
 	}
 

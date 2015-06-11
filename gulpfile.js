@@ -5,8 +5,8 @@ gulp.task('scripts', function () {
 
 	gulp.src('./src/scripts/*.js')
 		.pipe(plugins.babel())
-		.pipe(plugins.concat('fluidScroll.min.js', {newLine: "\n"}))
-		// .pipe(plugins.uglify())
+		.pipe(plugins.concat('scrollSnap.min.js', {newLine: "\n"}))
+		.pipe(plugins.uglify())
 		.pipe(gulp.dest('./dist'));
 
 });
