@@ -133,7 +133,6 @@ window.scrollSnap = {
 			active:	false,
 			top:    elem.offsetTop,
 			bottom: elem.offsetTop + elem.offsetHeight,
-			width:  elem.offsetWidth,
 			height: elem.offsetHeight,
 			dom:    elem
 		}
