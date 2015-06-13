@@ -16,7 +16,7 @@ window.scrollSnap = {
 		if (scrollSnap._valid(opts)===false) return false
 
 		// Disable scrollSnap on mobile devices
-		if (opts.detectMobile===true&&scrollSnap._isMobile()===true) return false
+		if (opts.detectMobile===true && scrollSnap._isMobile()===true) return false
 
 		// Save computed options
 		scrollSnap._computedOpts = opts
@@ -41,7 +41,7 @@ window.scrollSnap = {
 		for (let i = 0; i < opts.elements.length; ++i) {
 
 			let element        = opts.elements[i],
-				elementMetrics = scrollSnap._getElementMetrics(element, scrollSnap._computedWindow, i)
+			    elementMetrics = scrollSnap._getElementMetrics(element, scrollSnap._computedWindow, i)
 
 			// Save metrics of element
 			scrollSnap._computedElements.push(elementMetrics)
@@ -49,7 +49,7 @@ window.scrollSnap = {
 		}
 
 		var isBig   = scrollSnap._computedWindow.width >= opts.minWidth && scrollSnap._computedWindow.height >= opts.minHeight,
-			isSmall = scrollSnap._computedWindow.width < opts.minWidth || scrollSnap._computedWindow.height < opts.minHeight
+		    isSmall = scrollSnap._computedWindow.width < opts.minWidth || scrollSnap._computedWindow.height < opts.minHeight
 
 		if (isBig===true && (scrollSnap._on===false || scrollSnap._on===null))       return scrollSnap._start(opts)
 		else if (isSmall===true && (scrollSnap._on===true || scrollSnap._on===null)) return scrollSnap._stop(opts)
@@ -85,28 +85,29 @@ window.scrollSnap = {
 
 	_valid(opts = {}) {
 
+		// Check required properties
+
 		if (opts.elements==null) {
 			console.error('Elements missing: opts.elements')
 			return false
 		}
 
-		if (opts.minWidth==null||opts.minWidth<0) {
+		if (opts.minWidth==null || opts.minWidth<0) {
 			console.error('Property missing or not a number: opts.minWidth')
 			return false
 		}
 
-		if (opts.minHeight==null||opts.minHeight<0) {
+		if (opts.minHeight==null || opts.minHeight<0) {
 			console.error('Property missing or not a number: opts.minHeight')
 			return false
 		}
 
-		if (opts.detectMobile!==false) opts.detectMobile = true
+		// Set optional properties
 
-		if (opts.duration==null||opts.duration<0) opts.duration = 20
-
-		if (opts.timing==null) opts.timing = scrollSnap._timing
-
-		if (opts.keyboard!==false) opts.keyboard = true
+		if (opts.detectMobile!==false)              opts.detectMobile = true
+		if (opts.duration==null || opts.duration<0) opts.duration     = 20
+		if (opts.timing==null)                      opts.timing       = scrollSnap._timing
+		if (opts.keyboard!==false)                  opts.keyboard     = true
 
 		return true
 
@@ -115,11 +116,11 @@ window.scrollSnap = {
 	_getWindowMetrics() {
 
 		return {
-			top:    document.body.scrollTop,
-			maxTop: document.body.offsetHeight - window.innerHeight,
-			bottom: document.body.scrollTop + window.innerHeight,
-			width:  window.innerWidth,
-			height: window.innerHeight
+			top    : document.body.scrollTop,
+			maxTop : document.body.offsetHeight - window.innerHeight,
+			bottom : document.body.scrollTop + window.innerHeight,
+			width  : window.innerWidth,
+			height : window.innerHeight
 		}
 
 	},
@@ -130,11 +131,11 @@ window.scrollSnap = {
 
 		var obj = {
 			index,
-			active:	false,
-			top:    elem.offsetTop,
-			bottom: elem.offsetTop + elem.offsetHeight,
-			height: elem.offsetHeight,
-			dom:    elem
+			active : false,
+			top    : elem.offsetTop,
+			bottom : elem.offsetTop + elem.offsetHeight,
+			height : elem.offsetHeight,
+			dom    : elem
 		}
 
 		obj.visiblePercentage = scrollSnap._getElementVisiblePercentage(obj, windowMetrics).vP
@@ -146,9 +147,9 @@ window.scrollSnap = {
 	_getElementVisiblePercentage(elementMetrics, windowMetrics) {
 
 		var sP = 0,
-			eP = 0,
-			vH = 0,
-			vP = 0
+		    eP = 0,
+		    vH = 0,
+		    vP = 0
 
 		// Calculate start-point (sP)
 		sP = (windowMetrics.top > elementMetrics.top ? windowMetrics.top : elementMetrics.top)
@@ -192,10 +193,10 @@ window.scrollSnap = {
 		elementMetrics.active = true
 
 		var currentFrame   = 0,
-			startScrollTop = document.body.scrollTop,
-			difference     = startScrollTop - elementMetrics.top,
-			duration       = scrollSnap._computedOpts.duration,
-			timing         = scrollSnap._computedOpts.timing
+		    startScrollTop = document.body.scrollTop,
+		    difference     = startScrollTop - elementMetrics.top,
+		    duration       = scrollSnap._computedOpts.duration,
+		    timing         = scrollSnap._computedOpts.timing
 
 		console.log(startScrollTop);
 
@@ -208,7 +209,7 @@ window.scrollSnap = {
 			// ... all frames have been shown
 			// ... scrollTop reached its maximum after the first frame
 			if ((currentFrame>=duration) ||
-				(document.body.scrollTop===windowMetrics.maxTop && currentFrame!==0)) {
+			    (document.body.scrollTop===windowMetrics.maxTop && currentFrame!==0)) {
 
 					// Animation finished
 					scrollSnap._animating = false
@@ -261,9 +262,9 @@ window.scrollSnap = {
 	_onKeydown(e) {
 
 		var key    = e.keyCode,
-			newPos = 0
+		    newPos = 0
 
-		if (key!==38 && key!==40)          return true
+		if (key!==38 && key!==40)         return true
 		if (scrollSnap._animating===true) return false
 
 		scrollSnap._animating = true
@@ -318,10 +319,10 @@ window.scrollSnap = {
 		scrollSnap._animating = true
 
 		var direction      = 0,
-			topElement     = {},
-			nextElementNum = null,
-			nextElement    = {},
-			gravitation    = 9.807
+		    topElement     = {},
+		    nextElementNum = null,
+		    nextElement    = {},
+		    gravitation    = 9.807
 
 		// Get the direction from the event
 		if (e.type==='wheel') direction = e.deltaY
@@ -340,13 +341,13 @@ window.scrollSnap = {
 		for (let i = 0; i < scrollSnap._computedOpts.elements.length; ++i) {
 
 			let element        = scrollSnap._computedOpts.elements[i],
-				elementMetrics = scrollSnap._getElementMetrics(element, scrollSnap._computedWindow, i)
+			    elementMetrics = scrollSnap._getElementMetrics(element, scrollSnap._computedWindow, i)
 
 			// Save metrics of element
 			scrollSnap._computedElements.push(elementMetrics)
 
 			// Get the element which is most visible and save it
-			if (topElement.visiblePercentage==null || elementMetrics.visiblePercentage > topElement.visiblePercentage) topElement = elementMetrics
+			if (topElement.visiblePercentage==null || elementMetrics.visiblePercentage>topElement.visiblePercentage) topElement = elementMetrics
 
 		}
 
