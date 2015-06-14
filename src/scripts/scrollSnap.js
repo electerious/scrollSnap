@@ -115,12 +115,15 @@ window.scrollSnap = {
 
 	_getWindowMetrics() {
 
+		var boundingClientRect = document.body.getBoundingClientRect(),
+		    windowSize         = { width: window.innerWidth, height: window.innerHeight }
+
 		return {
-			top    : document.body.scrollTop,
-			maxTop : document.body.offsetHeight - window.innerHeight,
-			bottom : document.body.scrollTop + window.innerHeight,
-			width  : window.innerWidth,
-			height : window.innerHeight
+			top    : boundingClientRect.top * -1,
+			maxTop : boundingClientRect.height - windowSize.height,
+			bottom : boundingClientRect.top * -1 + windowSize.height,
+			width  : windowSize.width,
+			height : windowSize.height
 		}
 
 	},
@@ -193,17 +196,18 @@ window.scrollSnap = {
 		elementMetrics.active = true
 
 		var currentFrame   = 0,
-		    startScrollTop = document.body.scrollTop,
+		    startScrollTop = -document.body.getBoundingClientRect().top,
 		    difference     = startScrollTop - elementMetrics.top,
 		    duration       = scrollSnap._computedOpts.duration,
 		    timing         = scrollSnap._computedOpts.timing
 
-		console.log(startScrollTop);
-
 		function animation() {
 
+			let newScrollTop = startScrollTop - timing(currentFrame, 0, difference, duration)
+
 			// Scroll to element
-			document.body.scrollTop = startScrollTop - timing(currentFrame, 0, difference, duration)
+			document.body.scrollTop = newScrollTop // Safari, Chrome
+			document.documentElement.scrollTop = newScrollTop // Firefox
 
 			// Stop the animation when ...
 			// ... all frames have been shown
