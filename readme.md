@@ -10,7 +10,7 @@ Tested with the latest versions of [Mozilla Firefox](https://www.mozilla.org/en-
 
 | Name | Description | Link |
 |:-----------|:------------|:------------|
-| Basic | Snaps to the nearest section | [Demo](./demos/default.html) |
+| Basic | Snaps to the nearest section | [Try it on CodePen](http://codepen.io/electerious/pen/gpxbZp) |
 
 ## Features
 
