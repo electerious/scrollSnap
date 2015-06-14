@@ -1,10 +1,10 @@
 {
-  "name": "scrollSnap",
+  "name": "scrollsnap",
   "version": "1.0.0",
   "authors": [
     "Tobias Reich <tobias.reich.ich@gmail.com>"
   ],
-  "description": "",
+  "description": "Section-based scrolling for your site",
   "main": "dist/scrollSnap.min.js",
   "keywords": [
     "parallax",
