@@ -32,7 +32,7 @@
     "gulp-autoprefixer": "2.3.1",
     "gulp-babel": "^5.1.0",
     "gulp-concat": "^2.5.2",
-    "gulp-load-plugins": "^0.10.0",
+    "gulp-load-plugins": "^1.0.0-rc",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5"
   }
