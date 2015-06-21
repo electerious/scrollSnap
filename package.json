@@ -1,6 +1,7 @@
 {
   "name": "scrollsnap",
-  "version": "1.0.0",
+  "moduleName": "scrollSnap",
+  "version": "1.1.0",
   "authors": [
     "Tobias Reich <tobias.reich.ich@gmail.com>"
   ],
@@ -28,10 +29,13 @@
     "etc"
   ],
   "devDependencies": {
+    "@electerious/modulizer": "^1.0.1",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "2.3.1",
     "gulp-babel": "^5.1.0",
     "gulp-concat": "^2.5.2",
+    "gulp-footer": "^1.0.5",
+    "gulp-header": "^1.2.2",
     "gulp-load-plugins": "^1.0.0-rc",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5"

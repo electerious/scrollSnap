@@ -16,6 +16,7 @@ Tested with the latest versions of [Mozilla Firefox](https://www.mozilla.org/en-
 
 - Works in all modern browsers
 - Zero dependencies
+- CommonJS and AMD support
 - Performance-optimized
 - Fluid animations
 
