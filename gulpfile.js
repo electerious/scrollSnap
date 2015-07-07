@@ -30,6 +30,6 @@ gulp.task('default', ['scripts'])
 
 gulp.task('watch', ['scripts'], function() {
 
-	gulp.watch('./src/scripts/*.js', ['scripts'])
+	gulp.watch('./src/scripts/**/*.js', ['scripts'])
 
 })
