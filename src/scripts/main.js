@@ -1,14 +1,14 @@
-var on        = null,
+let on        = null,
     animating = false
 
-var scrollTimer = null,
+let scrollTimer = null,
     resizeTimer = null
 
-var computedOpts     = null,
+let computedOpts     = null,
     computedWindow   = null,
     computedElements = null
 
-const init = function(opts = {}) {
+export const init = function(opts = {}) {
 
 	// Check if opts includes all required properties
 	if (valid(opts)===false) return false
@@ -46,7 +46,7 @@ const _init = function(opts) {
 
 	}
 
-	var isBig   = computedWindow.width >= opts.minWidth && computedWindow.height >= opts.minHeight,
+	let isBig   = computedWindow.width >= opts.minWidth && computedWindow.height >= opts.minHeight,
 	    isSmall = computedWindow.width < opts.minWidth || computedWindow.height < opts.minHeight
 
 	if (isBig===true && (on===false || on===null))       return start(opts)
@@ -113,7 +113,7 @@ const valid = function(opts = {}) {
 
 const getWindowMetrics = function() {
 
-	var boundingClientRect = document.body.getBoundingClientRect(),
+	let boundingClientRect = document.body.getBoundingClientRect(),
 	    windowSize         = { width: window.innerWidth, height: window.innerHeight }
 
 	return {
@@ -130,7 +130,7 @@ const getElementMetrics = function(elem, windowMetrics, index) {
 
 	if (elem==null) return false
 
-	var obj = {
+	let obj = {
 		index,
 		active : false,
 		top    : elem.offsetTop,
@@ -147,7 +147,7 @@ const getElementMetrics = function(elem, windowMetrics, index) {
 
 const getElementVisiblePercentage = function(elementMetrics, windowMetrics) {
 
-	var sP = 0,
+	let sP = 0,
 	    eP = 0,
 	    vH = 0,
 	    vP = 0
@@ -177,7 +177,7 @@ const getElementVisiblePercentage = function(elementMetrics, windowMetrics) {
 
 const setElementVisible = function(elementMetrics, windowMetrics) {
 
-	var elem = elementMetrics.dom
+	let elem = elementMetrics.dom
 
 	// Remove all active-states
 	for (let i = 0; i < computedElements.length; ++i) {
@@ -193,7 +193,7 @@ const setElementVisible = function(elementMetrics, windowMetrics) {
 	elem.classList.add('active')
 	elementMetrics.active = true
 
-	var currentFrame   = 0,
+	let currentFrame   = 0,
 	    startScrollTop = -document.body.getBoundingClientRect().top,
 	    difference     = startScrollTop - elementMetrics.top,
 	    duration       = computedOpts.duration,
@@ -263,7 +263,7 @@ const stop = function(opts) {
 
 const onKeydown = function(e) {
 
-	var key    = e.keyCode,
+	let key    = e.keyCode,
 	    newPos = 0
 
 	if (key!==38 && key!==40)         return true
@@ -320,7 +320,7 @@ const scrollTo = function(e) {
 
 	animating = true
 
-	var direction      = 0,
+	let direction      = 0,
 	    topElement     = {},
 	    nextElementNum = null,
 	    nextElement    = {},
@@ -379,7 +379,7 @@ const scrollToNearest = function() {
 
 	animating = true
 
-	var nextElementMetrics = null
+	let nextElementMetrics = null
 
 	for (let i = 0; i < computedOpts.elements.length; ++i) {
 
@@ -392,5 +392,3 @@ const scrollToNearest = function() {
 	return setElementVisible(nextElementMetrics, computedWindow)
 
 }
-
-return { init }
