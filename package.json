@@ -29,13 +29,7 @@
     "etc"
   ],
   "devDependencies": {
-    "babel-preset-es2015": "^6.1.2",
-    "babelify": "^7.2.0",
-    "browserify": "^12.0.1",
     "gulp": "^3.9.0",
-    "gulp-load-plugins": "^1.1.0",
-    "gulp-uglify": "^1.4.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "@electerious/basictasks": "^1.0.0"
   }
 }
