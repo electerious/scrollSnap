@@ -20,14 +20,6 @@
     "type": "git",
     "url": "https://github.com/electerious/scrollSnap.git"
   },
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests",
-    "etc"
-  ],
   "devDependencies": {
     "gulp": "^3.9.0",
     "@electerious/basictasks": "^1.1.1"
