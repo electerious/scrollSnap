@@ -21,7 +21,7 @@
     "url": "https://github.com/electerious/scrollSnap.git"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "@electerious/basictasks": "^1.1.1"
+    "gulp": "^3.9.1",
+    "@electerious/basictasks": "^1.1.4"
   }
 }
