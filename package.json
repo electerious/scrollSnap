@@ -14,6 +14,10 @@
     "section",
     "snap"
   ],
+  "scripts": {
+    "start": "gulp watch",
+    "compile": "gulp"
+  },
   "license": "MIT",
   "homepage": "https://github.com/electerious/scrollSnap",
   "repository": {
