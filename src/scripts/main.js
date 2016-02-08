@@ -1,12 +1,12 @@
-let on        = null,
-    animating = false
+let on        = null
+let animating = false
 
-let scrollTimer = null,
-    resizeTimer = null
+let scrollTimer = null
+let resizeTimer = null
 
-let computedOpts     = null,
-    computedWindow   = null,
-    computedElements = null
+let computedOpts     = null
+let computedWindow   = null
+let computedElements = null
 
 export const init = function(opts = {}) {
 
@@ -38,16 +38,16 @@ const _init = function(opts) {
 	// Update the metrics of each element
 	for (let i = 0; i < opts.elements.length; ++i) {
 
-		let element        = opts.elements[i],
-		    elementMetrics = getElementMetrics(element, computedWindow, i)
+		let element        = opts.elements[i]
+		let elementMetrics = getElementMetrics(element, computedWindow, i)
 
 		// Save metrics of element
 		computedElements.push(elementMetrics)
 
 	}
 
-	let isBig   = computedWindow.width >= opts.minWidth && computedWindow.height >= opts.minHeight,
-	    isSmall = computedWindow.width < opts.minWidth || computedWindow.height < opts.minHeight
+	let isBig   = computedWindow.width >= opts.minWidth && computedWindow.height >= opts.minHeight
+	let isSmall = computedWindow.width < opts.minWidth || computedWindow.height < opts.minHeight
 
 	if (isBig===true && (on===false || on===null))       return start(opts)
 	else if (isSmall===true && (on===true || on===null)) return stop(opts)
@@ -113,8 +113,8 @@ const valid = function(opts = {}) {
 
 const getWindowMetrics = function() {
 
-	let boundingClientRect = document.body.getBoundingClientRect(),
-	    windowSize         = { width: window.innerWidth, height: window.innerHeight }
+	let boundingClientRect = document.body.getBoundingClientRect()
+	let windowSize         = { width: window.innerWidth, height: window.innerHeight }
 
 	return {
 		top    : boundingClientRect.top * -1,
@@ -147,10 +147,10 @@ const getElementMetrics = function(elem, windowMetrics, index) {
 
 const getElementVisiblePercentage = function(elementMetrics, windowMetrics) {
 
-	let sP = 0,
-	    eP = 0,
-	    vH = 0,
-	    vP = 0
+	let sP = 0
+	let eP = 0
+	let vH = 0
+	let vP = 0
 
 	// Calculate start-point (sP)
 	sP = (windowMetrics.top > elementMetrics.top ? windowMetrics.top : elementMetrics.top)
@@ -193,11 +193,11 @@ const setElementVisible = function(elementMetrics, windowMetrics) {
 	elem.classList.add('active')
 	elementMetrics.active = true
 
-	let currentFrame   = 0,
-	    startScrollTop = -document.body.getBoundingClientRect().top,
-	    difference     = startScrollTop - elementMetrics.top,
-	    duration       = computedOpts.duration,
-	    timing         = computedOpts.timing
+	let currentFrame   = 0
+	let startScrollTop = -document.body.getBoundingClientRect().top
+	let difference     = startScrollTop - elementMetrics.top
+	let duration       = computedOpts.duration
+	let timing         = computedOpts.timing
 
 	function animation() {
 
@@ -263,8 +263,8 @@ const stop = function(opts) {
 
 const onKeydown = function(e) {
 
-	let key    = e.keyCode,
-	    newPos = 0
+	let key    = e.keyCode
+	let newPos = 0
 
 	if (key!==38 && key!==40)         return true
 	if (animating===true) return false
@@ -320,11 +320,11 @@ const scrollTo = function(e) {
 
 	animating = true
 
-	let direction      = 0,
-	    topElement     = {},
-	    nextElementNum = null,
-	    nextElement    = {},
-	    gravitation    = 9.807
+	let direction      = 0
+	let topElement     = {}
+	let nextElementNum = null
+	let nextElement    = {}
+	let gravitation    = 9.807
 
 	// Get the direction from the event
 	if (e.type==='wheel') direction = e.deltaY
@@ -342,8 +342,8 @@ const scrollTo = function(e) {
 	// Update the metrics of each element
 	for (let i = 0; i < computedOpts.elements.length; ++i) {
 
-		let element        = computedOpts.elements[i],
-		    elementMetrics = getElementMetrics(element, computedWindow, i)
+		let element        = computedOpts.elements[i]
+		let elementMetrics = getElementMetrics(element, computedWindow, i)
 
 		// Save metrics of element
 		computedElements.push(elementMetrics)
