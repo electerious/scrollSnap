@@ -1,4 +1,4 @@
-# scrollSnap
+# [Deprecated] scrollSnap
 
 Scroll, stop, snap.
 
